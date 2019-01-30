@@ -31,7 +31,24 @@ var sum = function(array) {
 // 3. Sum all numbers in an array containing nested arrays.
 // arraySum([1,[2,3],[[4]],5]); // 15
 var arraySum = function(array) {
+	let cv = array[array.length-1];
+	if (Array.isArray(cv)){
+	  return arraySum(cv) + arraySum(array.slice(0, array.length-1));
+	}
+	if (array.length <= 1){
+		return array[0] || 0;
+	}
+
+	if (!Array.isArray(cv)) {
+      console.log(typeof cv)
+      return cv + arraySum(array.slice(0, array.length-1))
+
+	}
+	// edge case: empty array, non-array
+	//base case: last value in array, return value or 0 (edge case)
+	//recursive case: if value is array, sum all parts, else return num + recursion
 };
+
 
 // 4. Check if a number is even.
 var isEven = function(n) {
