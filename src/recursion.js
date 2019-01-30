@@ -96,12 +96,15 @@ var range = function(x, y) {
 // exponent(4,3); // 64
 // https://www.khanacademy.org/computing/computer-science/algorithms/recursive-algorithms/a/computing-powers-of-a-number
 var exponent = function(base, exp) {
+  if (exp > 0 && exp % 2 === 0){
+  	y = exponent(base, exp/2)
+  	return y*y
+  }
   if (exp > 1) return base * exponent(base, exp-1);
   if (exp < 0) return parseFloat(1/base * exponent(base, exp+1).toPrecision(3));
   if (exp === -1) return 1/base;
   if (exp === 1) return base;
   if (exp === 0) return 1;
-
 };
 
 // 8. Determine if a number is a power of two.
@@ -109,14 +112,30 @@ var exponent = function(base, exp) {
 // powerOfTwo(16); // true
 // powerOfTwo(10); // false
 var powerOfTwo = function(n) {
+	if (n === 1) return true;
+	if (n < 1) return false;
+	if (n > 1) return powerOfTwo(n/2);
 };
 
 // 9. Write a function that reverses a string.
 var reverse = function(string) {
+	if (!string.length) return '';
+	if (string.length) return string[string.length-1] + reverse(string.slice(0, string.length-1))
 };
 
 // 10. Write a function that determines if a string is a palindrome.
 var palindrome = function(string) {
+  if (string.length < 1) return false;
+  if (string.length === 1) return true;
+  if (string.length === 2){
+  	return string[0].toUpperCase() === string[1].toUpperCase()? true: false;
+  }
+  if (string.length > 2) {
+  	if (string[0].toUpperCase() === string[string.length-1].toUpperCase()){
+  		return palindrome(string.slice(1, string.length-1));
+  	}
+  	return false;
+  }
 };
 
 // 11. Write a function that returns the remainder of x divided by y without using the
@@ -125,11 +144,54 @@ var palindrome = function(string) {
 // modulo(17,5) // 2
 // modulo(22,6) // 4
 var modulo = function(x, y) {
+  if (x >= 0 && y >=0) {
+    if (x-y > 0) return modulo(x-y, y);
+    if (x-y < 0) return x;
+    if (x === 0) return NaN;
+    if (x-y === 0) return 0;
+  }
+  else if (x <= 0 && y <= 0) {
+    if (x-y > 0) return x;
+    if (x-y < 0) return modulo(x-y, y);
+    if (x === 0) return NaN;
+    if (x-y === 0) return 0;
+  }
+  else if (x <= 0 && y >= 0) {
+    if (x+y > 0) return x;
+    if (x+y < 0) return modulo(x+y, y);
+    if (x === 0) return NaN;
+    if (x+y === 0) return 0;
+  } 
+  else if (x >= 0 && y <= 0) {
+    if (x+y > 0) return modulo(x+y, y);
+    if (x+y < 0) return x;
+    if (x === 0) return NaN;
+    if (x+y === 0) return 0;
+  } 
 };
 
 // 12. Write a function that multiplies two numbers without using the * operator or
 // Math methods.
 var multiply = function(x, y) {
+	if (x === 0|| y === 0){
+	  return 0;
+	}
+	else if (x > 0 && y > 0){
+      if (y - 1 > 0) return x + multiply(x, y-1);
+      if (y === 1) return x;
+	}
+	else if (x < 0 && y < 0){
+      if (y + 1 < 0) return -x + multiply(x, y+1);
+      if (y === -1) return -x;
+	}
+	else if (x > 0 && y < 0){
+      if (y + 1 < 0) return -x + multiply(x, y+1);
+      if (y === -1) return -x
+	}
+	else if (x < 0 && y > 0){
+      if (y - 1 > 0) return x + multiply(x, y-1);
+      if (y === 1) return x
+	}
 };
 
 // 13. Write a function that divides two numbers without using the / operator or
