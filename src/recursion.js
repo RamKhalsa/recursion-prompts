@@ -227,6 +227,21 @@ var divide = function(x, y) {
 // http://www.cse.wustl.edu/~kjg/cse131/Notes/Recursion/recursion.html
 // https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/the-euclidean-algorithm
 var gcd = function(x, y) {
+  if (x <= 0 || y <= 0){
+  	return null
+  }
+  let largerNum, smallerNum;
+  if (x > y){
+  	largerNum = x
+  	smallerNum = y;
+  }
+  if (y > x){
+  	smallerNum = x;
+  	largerNum = y;
+  }
+  if (largerNum % smallerNum === 0) return smallerNum;
+  return gcd(smallerNum, largerNum % smallerNum);
+
 };
 
 // 15. Write a function that compares each character of two strings and returns true if
@@ -234,21 +249,42 @@ var gcd = function(x, y) {
 // compareStr('house', 'houses') // false
 // compareStr('tomato', 'tomato') // true
 var compareStr = function(str1, str2) {
+	if (!str1.length && !str2.length) return true;
+	if (!str1.length || !str2.length) return false;
+	if (str1.length && str2.length){
+		if (str1[0] === str2[0]) return compareStr(str1.slice(1), str2.slice(1));
+		return false;
+	}
 };
 
 // 16. Write a function that accepts a string and creates an array where each letter
 // occupies an index of the array.
 var createArray = function(str) {
+	let result = [];
+	if (!str.length) return result;
+	if (str.length) {
+	  result.push(str[0]);
+	  return result.concat(createArray(str.slice(1)))
+	}
 };
 
 // 17. Reverse the order of an array
 var reverseArr = function(array) {
+	//base case: array has no more characters
+	let result = [];
+	if (!array.length) return result;
+	result.push(array[array.length-1])
+	return result.concat(reverseArr(array.slice(0,array.length-1)))
 };
 
 // 18. Create a new array with a given value and length.
 // buildList(0,5) // [0,0,0,0,0]
 // buildList(7,3) // [7,7,7]
 var buildList = function(value, length) {
+  let result = [];
+  if (length <= 0) return result;
+  result.push(value);
+  return result.concat(buildList(value, length-1))
 };
 
 // 19. Implement FizzBuzz. Given integer n, return an array of the string representations of 1 to n.
@@ -257,6 +293,23 @@ var buildList = function(value, length) {
 // For numbers which are multiples of both three and five, output “FizzBuzz” instead of the number.
 // fizzBuzz(5) // ['1','2','Fizz','4','Buzz']
 var fizzBuzz = function(n) {
+  let result = [];
+  if (n <= 0) return result;
+  if (n % 5 === 0 && n % 3 === 0){
+  	result.push('FizzBuzz');
+  	return result.concat(fizzBuzz(n-1));
+  }
+  if (n % 5 === 0) {
+  	result.push('Buzz');
+  	return result.concat(fizzBuzz(n-1));
+  }
+  if (n % 3 === 0){
+  	result.push('Fizz');
+  	return result.concat(fizzBuzz(n-1));
+  }
+  result.push(n.toString());
+  return result.concat(fizzBuzz(n-1));
+
 };
 
 // 20. Count the occurence of a value in a list.
