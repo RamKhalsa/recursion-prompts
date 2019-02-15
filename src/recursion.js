@@ -362,7 +362,10 @@ var countValuesInObj = function(obj, value) {
 var replaceKeysInObj = function(obj, oldKey, newKey) {
 	for (let key in obj){
 	  if (typeof obj[key] === 'object') obj[key] = replaceKeysInObj(obj[key], oldKey, newKey);
-	  if (key === oldKey) obj[newKey] = obj[key];
+	  if (key === oldKey){
+	  	obj[newKey] = obj[key];
+	  	delete obj[key];
+	  } 
 	  // add something to delete old keys
 	}
 	return obj;
@@ -374,13 +377,14 @@ var replaceKeysInObj = function(obj, oldKey, newKey) {
 // fibonacci(5); // [0,1,1,2,3,5]
 // Note: The 0 is not counted.
 var fibonacci = function(n) {
-	let result = [0];
+	let result = [];
 	if (n < 1) return null;
-	if (n === 1) result.push(1);
-	if (n === 2) return fibonacci(n-1).concat([1]);
+	if (n === 1) return [0,1];
+	if (n === 2 ) return [0, 1, 1];
 	if (n > 2) {
-      result.push(fibonacci(n-2)[-1] + fibonacci(n-1)[-1]);
-      return fibonacci(n-1).concat(result);
+	  let x = fibonacci(n-1);
+      result[0] = x[x.length-1] + x[x.length-2];
+      return (fibonacci(n-1)).concat(result);
   }
   return result;
 };
